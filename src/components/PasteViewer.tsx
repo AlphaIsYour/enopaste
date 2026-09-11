@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { highlightCode } from "@/lib/highlighter";
 import { cn, formatDate, formatViews, LANGUAGES } from "@/lib/utils";
 import {
@@ -15,6 +15,7 @@ import {
   Globe,
   LockKeyhole,
   ArrowLeft,
+  WrapText,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -39,7 +40,35 @@ interface PasteViewerProps {
 export function PasteViewer({ paste }: PasteViewerProps) {
   const [copied, setCopied] = useState(false);
   const [rawCopied, setRawCopied] = useState(false);
+  const [isWrapped, setIsWrapped] = useState(false);
   const codeRef = useRef<HTMLPreElement>(null);
+
+  // Restore line-wrap preference from localStorage
+  useEffect(() => {
+    const handle = requestAnimationFrame(() => {
+      try {
+        const saved = localStorage.getItem("enopaste:line-wrap");
+        if (saved !== null) {
+          setIsWrapped(saved === "true");
+        }
+      } catch {
+        // Ignore errors in environments where localStorage is restricted
+      }
+    });
+    return () => cancelAnimationFrame(handle);
+  }, []);
+
+  const handleToggleWrap = () => {
+    setIsWrapped((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("enopaste:line-wrap", String(next));
+      } catch {
+        // Ignore
+      }
+      return next;
+    });
+  };
 
   const languageLabel =
     LANGUAGES.find((l) => l.value === paste.language)?.label || "Text";
@@ -223,27 +252,58 @@ export function PasteViewer({ paste }: PasteViewerProps) {
 
       {/* Code Display */}
       <div className="relative group">
-        <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-2 bg-card border border-border rounded-t-xl border-b-0">
+        <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-2 bg-card border border-border rounded-t-xl border-b-0 z-10">
           <span className="text-xs text-muted-foreground font-mono">
             {languageLabel.toLowerCase()}
           </span>
-          <button
-            aria-label={copied ? "Copied paste content" : "Copy paste content"}
-            onClick={handleCopy}
-            className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
-          >
-            {copied ? (
-              <Check className="h-4 w-4 text-green-500" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={handleToggleWrap}
+              aria-label={isWrapped ? "Disable line wrapping" : "Enable line wrapping"}
+              title={
+                isWrapped
+                  ? "Disable line wrapping (switch to horizontal scroll)"
+                  : "Enable line wrapping"
+              }
+              className={cn(
+                "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-all",
+                isWrapped
+                  ? "bg-primary/15 text-primary border border-primary/30"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary border border-transparent"
+              )}
+            >
+              <WrapText className="h-3.5 w-3.5" />
+              <span>{isWrapped ? "Wrapped" : "Wrap"}</span>
+            </button>
+
+            <button
+              onClick={handleCopy}
+              aria-label={copied ? "Copied paste content" : "Copy paste content"}
+              title="Copy code content"
+              className="p-1.5 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+            >
+              {copied ? (
+                <Check className="h-4 w-4 text-green-500" />
+              ) : (
+                <Copy className="h-4 w-4" />
+              )}
+            </button>
+          </div>
         </div>
 
-        <div className="overflow-x-auto bg-card border border-border rounded-xl">
+        <div
+          className={cn(
+            "bg-card border border-border rounded-xl transition-all",
+            isWrapped ? "overflow-x-hidden" : "overflow-x-auto"
+          )}
+        >
           <pre
             ref={codeRef}
-            className="p-4 pt-12 font-mono text-sm leading-relaxed"
+            className={cn(
+              "p-4 pt-12 font-mono text-sm leading-relaxed",
+              isWrapped ? "whitespace-pre-wrap break-words" : "whitespace-pre"
+            )}
           >
             <code
               className="line-numbers"
