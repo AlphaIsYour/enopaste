@@ -1,0 +1,42 @@
+name: "✨ Feature Request / Proposal"
+description: "Suggest a new idea, capability, or enhancement for EnoPaste"
+title: "[FEAT]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        We love new ideas! Please check [README roadmap](README.md#roadmap) or existing issues before submitting to see if this is already being discussed.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: What problem or limitation are you trying to solve?
+      placeholder: "I'm always frustrated when..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see implemented.
+      placeholder: "A clear and concise description of what you want to happen..."
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Did you consider any alternative approaches or workarounds?
+    validations:
+      required: false
+  - type: dropdown
+    id: willing_to_contribute
+    attributes:
+      label: Would you be willing to submit a PR for this feature?
+      options:
+        - "Yes, I would like to work on this!"
+        - "Maybe with guidance from maintainers"
+        - "No, I am only suggesting the idea"
+    validations:
+      required: true

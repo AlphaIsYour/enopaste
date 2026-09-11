@@ -1,0 +1,41 @@
+name: "🟢 Good First Issue Proposal"
+description: "Template for maintainers to document bite-sized tasks for new contributors"
+title: "[GOOD FIRST ISSUE]: "
+labels: ["good first issue", "help wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template when defining an issue specifically scoped for new or first-time contributors.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What is the problem or small improvement?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: Why does this matter for EnoPaste?
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Suggested Approach / Where to Look
+      description: Mention the relevant files, functions, or lines to help the contributor get started immediately.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Checkboxes defining when this issue is considered done.
+      placeholder: |
+        - [ ] Changes made to ...
+        - [ ] Local tests or linting passes
+        - [ ] Behavior manually verified
+    validations:
+      required: true

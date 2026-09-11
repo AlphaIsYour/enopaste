@@ -1,60 +1,64 @@
-# EnoPaste
+# EnoPaste 📋⚡
 
-A modern pastebin and snippet sharing platform built for developers. Share code with syntax highlighting, expiry timers, password protection, and burn-after-read functionality.
+A modern, developer-first pastebin and snippet sharing platform. Share code snippets, logs, and config files with syntax highlighting, expiry timers, password protection, and burn-after-read capabilities.
 
-![EnoPaste](https://img.shields.io/badge/EnoPaste-v1.0.0-6366f1?style=flat-square)
-![Next.js](https://img.shields.io/badge/Next.js-16-000000?style=flat-square&logo=next.js)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6?style=flat-square&logo=typescript)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06b6d4?style=flat-square&logo=tailwindcss)
-![Prisma](https://img.shields.io/badge/Prisma-7.0-2d3748?style=flat-square&logo=prisma)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-4169e1?style=flat-square&logo=postgresql)
+[![CI](https://github.com/AlphaIsYour/youralpha-07-enopaste/actions/workflows/ci.yml/badge.svg)](https://github.com/AlphaIsYour/youralpha-07-enopaste/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Next.js 16](https://img.shields.io/badge/Next.js-16.2-black?style=flat-square&logo=next.js)](https://nextjs.org/)
+[![React 19](https://img.shields.io/badge/React-19.2-61dafb?style=flat-square&logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.0-06b6d4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Prisma 7](https://img.shields.io/badge/Prisma-7.8-2d3748?style=flat-square&logo=prisma)](https://www.prisma.io/)
+
+---
 
 ## ✨ Features
 
-### Core Functionality
-- **Syntax Highlighting** — Support for 40+ programming languages with beautiful code display
-- **Expiry Timers** — Set pastes to auto-delete after 10 minutes, 1 hour, 1 day, 1 week, 1 month, or never
-- **Password Protection** — Optional password to keep sensitive pastes secure
-- **Burn After Read** — Self-destructing pastes that delete after first view
-- **Privacy Controls** — Public, unlisted, or private visibility modes
-- **Raw View** — Clean text view for copying and API consumption
-- **Copy to Clipboard** — One-click copy for code content and raw URLs
-- **Views Counter** — Track how many times a paste has been viewed
+- 🎨 **Syntax Highlighting** — Clean display for 40+ programming languages.
+- ⏳ **Expiry Timers** — Auto-expire pastes after 10m, 1h, 1d, 1w, 1mo, or keep them indefinitely.
+- 🔒 **Password Protection** — Secure sensitive pastes with bcrypt-hashed passwords.
+- 🔥 **Burn After Read** — Self-destructing pastes deleted after being viewed.
+- 👁️ **Privacy Controls** — Choose between `public`, `unlisted`, or `private` visibility.
+- 📄 **Raw View & Download** — Instant plain-text endpoint (`/api/paste/:slug/raw`) and one-click file download.
+- 📊 **Real-time Dashboard** — Browse recent public pastes, top-viewed snippets, and overall stats.
+- 🌙 **Modern Developer UX** — Clean dark aesthetic built with Tailwind CSS v4 and Lucide icons.
 
-### Dashboard
-- **Recent Pastes** — Latest public pastes with metadata
-- **Top Viewed** — Most popular pastes ranked by views
-- **Statistics** — Total pastes and views overview
+---
 
-### Developer Experience
-- **Clean UI** — Minimal, dark-themed interface designed for developers
-- **Responsive Design** — Works perfectly on desktop, tablet, and mobile
-- **Fast Performance** — Server-side rendering with Next.js App Router
-- **Type Safety** — Full TypeScript support throughout the codebase
+## 🏛️ Architecture Overview
 
-## 🚀 Tech Stack
+```
+┌─────────────────────────────────────────────────────────┐
+│                      Next.js App Router                 │
+│                                                         │
+│  [ Pages & UI ]                     [ API Routes ]      │
+│  • / (Create Paste Form)            • /api/paste        │
+│  • /dashboard (Public Pastes)       • /api/paste/:slug  │
+│  • /paste/:slug (Paste Viewer)      • /api/dashboard    │
+│  • /paste/:slug/raw (Raw View)                          │
+└──────────────┬──────────────────────────┬───────────────┘
+               │                          │
+               ▼                          ▼
+     [ UI Components ]           [ Prisma Client ORM ]
+     Tailwind v4 + Lucide         Adapter PG + Pool
+                                          │
+                                          ▼
+                                 [ PostgreSQL Database ]
+                                  Paste Schema & Indices
+```
 
-| Technology | Purpose |
-|------------|---------|
-| **Next.js 16** | React framework with App Router |
-| **TypeScript** | Type-safe JavaScript |
-| **Tailwind CSS 4** | Utility-first CSS framework |
-| **Prisma 7** | Type-safe ORM for PostgreSQL |
-| **PostgreSQL 16** | Relational database |
-| **Lucide React** | Beautiful icons |
-| **bcryptjs** | Password hashing |
+---
 
-## 📦 Installation
+## 🚀 Quickstart (Local Development)
 
 ### Prerequisites
-- Node.js 20+
-- PostgreSQL 14+
-- npm or yarn
+* [Node.js](https://nodejs.org/) v20.x or later
+* [Docker](https://www.docker.com/) (recommended) or a local PostgreSQL instance
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/enopaste.git
-cd enopaste
+git clone https://github.com/AlphaIsYour/youralpha-07-enopaste.git
+cd youralpha-07-enopaste
 ```
 
 ### 2. Install dependencies
@@ -62,68 +66,41 @@ cd enopaste
 npm install
 ```
 
-### 3. Set up environment variables
+### 3. Configure environment variables
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and configure your database connection:
-```env
-DATABASE_URL="postgresql://postgres:password@localhost:5432/enopaste"
+### 4. Start the database
+
+**Option A: Using Docker (Fastest)**
+```bash
+docker compose up -d
 ```
 
-### 4. Set up the database
+**Option B: Using Local PostgreSQL**
+Ensure PostgreSQL is active and create the database:
 ```bash
-# Create the database (if it doesn't exist)
 createdb enopaste
+```
 
-# Push the schema to the database
+### 5. Setup database schema & sample data
+```bash
+# Push schema to database
 npm run db:push
 
-# Seed with sample data
+# (Optional) Seed with sample pastes
 npm run db:seed
 ```
 
-### 5. Start the development server
+### 6. Run the development server
 ```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## 📁 Project Structure
-
-```
-enopaste/
-├── prisma/
-│   ├── schema.prisma      # Database schema
-│   └── seed.ts            # Sample data
-├── src/
-│   ├── app/
-│   │   ├── api/           # API routes
-│   │   │   ├── paste/     # Paste CRUD operations
-│   │   │   └── dashboard/ # Dashboard data
-│   │   ├── dashboard/     # Dashboard page
-│   │   ├── paste/[id]/    # Paste view pages
-│   │   ├── globals.css    # Global styles
-│   │   ├── layout.tsx     # Root layout
-│   │   └── page.tsx       # Home page
-│   ├── components/
-│   │   ├── CreatePasteForm.tsx
-│   │   ├── PasteViewer.tsx
-│   │   ├── PasswordPrompt.tsx
-│   │   ├── PasteCard.tsx
-│   │   ├── StatsCard.tsx
-│   │   ├── Header.tsx
-│   │   └── Footer.tsx
-│   └── lib/
-│       ├── prisma.ts      # Prisma client
-│       ├── utils.ts       # Utility functions
-│       └── highlighter.ts # Syntax highlighting
-├── .env.example           # Environment template
-├── package.json           # Dependencies
-└── README.md              # This file
-```
+---
 
 ## 🗄️ Database Schema
 
@@ -142,131 +119,91 @@ model Paste {
   lastViewedAt  DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  @@index([createdAt])
+  @@index([views])
+  @@index([expiresAt])
 }
 ```
-
-## 🛠️ Available Scripts
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server |
-| `npm run build` | Build for production |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint |
-| `npm run db:generate` | Generate Prisma client |
-| `npm run db:push` | Push schema to database |
-| `npm run db:migrate` | Run database migrations |
-| `npm run db:seed` | Seed database with sample data |
-| `npm run db:studio` | Open Prisma Studio |
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Import the project in [Vercel](https://vercel.com)
-3. Add environment variables:
-   - `DATABASE_URL` — Your PostgreSQL connection string
-4. Deploy!
-
-### Docker
-
-```dockerfile
-FROM node:20-alpine AS base
-
-FROM base AS deps
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-FROM base AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/public ./public
-
-EXPOSE 3000
-CMD ["node", "server.js"]
-```
-
-### Manual Deployment
-
-```bash
-# Build the application
-npm run build
-
-# Start the production server
-npm run start
-```
-
-## 🔧 Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | Required |
-| `NEXT_PUBLIC_APP_URL` | Application URL | `http://localhost:3000` |
-
-## 📝 API Reference
-
-### Create Paste
-```http
-POST /api/paste
-Content-Type: application/json
-
-{
-  "title": "My Paste",
-  "content": "console.log('Hello, World!');",
-  "language": "javascript",
-  "visibility": "public",
-  "password": "optional-password",
-  "burnAfterRead": false,
-  "expiresIn": 3600
-}
-```
-
-### Get Paste
-```http
-GET /api/paste/:slug
-GET /api/paste/:slug?password=your-password
-```
-
-### Get Raw Paste
-```http
-GET /api/paste/:slug/raw
-```
-
-### Dashboard Data
-```http
-GET /api/dashboard
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🙏 Acknowledgments
-
-- Inspired by popular pastebin services
-- Built with modern web technologies
-- Designed for developer productivity
 
 ---
 
-**Built with ❤️ for developers**
+## 📝 API Reference
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/paste` | `POST` | Create a new paste |
+| `/api/paste` | `GET` | Retrieve latest public pastes |
+| `/api/paste/:slug` | `GET` | Fetch paste details (query: `?password=...`) |
+| `/api/paste/:slug/raw` | `GET` | Get raw plain-text content |
+| `/api/dashboard` | `GET` | Fetch analytics, top pastes, and recent pastes |
+
+---
+
+## 🗺️ Project Roadmap
+
+We maintain a transparent roadmap so contributors know where EnoPaste is heading:
+
+### ✅ Completed
+- [x] Next.js 16 + React 19 + Tailwind CSS v4 foundation.
+- [x] Paste creation with syntax tagging and expiry calculations.
+- [x] Password hashing with bcryptjs.
+- [x] Basic burn-after-read behavior.
+- [x] Analytics dashboard with stats aggregation.
+
+### 🔄 In Progress
+- [ ] Onboarding docs & contribution ladder (`CONTRIBUTING.md`, PR & Issue Templates).
+- [ ] Multi-branch CI verification (`master` & `main`).
+- [ ] Instant Docker Compose local development.
+
+### 📋 Planned (Near-Term)
+- [ ] Setup Vitest automated test suite for utility functions and endpoints.
+- [ ] Interstitial warning screen for burn-after-read links (prevents premature destruction by bots).
+- [ ] Secure paste deletion via owner deletion token.
+- [ ] Click-to-select line numbers with URL anchors (`#L10-L25`).
+- [ ] Tab key indentation inside the paste editor.
+
+### 🤝 Help Wanted (Great for Contributors!)
+- [ ] Migrate syntax highlighter from custom regex to [Shiki](https://shiki.style/).
+- [ ] Dashboard search bar and language filter.
+- [ ] Terminal CLI / cURL posting support (`curl -F 'paste=<-' https://enopaste.dev/api/paste`).
+
+### 💡 Future Explorations
+- [ ] Client-side Zero-Knowledge End-to-End Encryption (AES-256-GCM via URL fragment `#secret`).
+- [ ] Optional user accounts for viewing personal paste history.
+- [ ] Multi-file paste support.
+
+---
+
+## 🤝 Contributing
+
+We love contributions! Whether you're fixing a typo, improving documentation, or implementing a new feature, you are very welcome here.
+
+Please check out our [Contributing Guide](CONTRIBUTING.md) to get started. We also maintain a list of beginner-friendly tasks under the [`good first issue`](https://github.com/AlphaIsYour/youralpha-07-enopaste/labels/good%20first%20issue) label.
+
+All participants are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+---
+
+## 👥 Contributors
+
+Thank you to everyone helping improve EnoPaste! Every contribution — code, review, bug report, or idea — matters.
+
+<!-- Contributions are automatically credited via GitHub Insights -->
+<a href="https://github.com/AlphaIsYour/youralpha-07-enopaste/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AlphaIsYour/youralpha-07-enopaste" alt="Contributors" />
+</a>
+
+---
+
+## ☕ Support
+
+EnoPaste is an open-source project maintained with care. If this tool saves you time or is helpful to your workflow, you can optionally support its ongoing development:
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-enoalph-yellow?style=flat-square&logo=buy-me-a-coffee)](https://buymeacoffee.com/enoalph)
+
+---
+
+## 📄 License
+
+This project is open-source and licensed under the [MIT License](LICENSE).

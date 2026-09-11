@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Questions & Discussions
+    url: https://github.com/AlphaIsYour/youralpha-07-enopaste/discussions
+    about: Ask questions, get help with setup, or discuss design concepts.
+  - name: 🔒 Security Vulnerabilities
+    url: https://github.com/AlphaIsYour/youralpha-07-enopaste/security/advisories/new
+    about: Privately disclose sensitive security vulnerabilities.

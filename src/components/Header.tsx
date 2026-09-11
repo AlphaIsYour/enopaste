@@ -62,7 +62,7 @@ export function Header() {
           {/* Right side */}
           <div className="flex items-center gap-3">
             <a
-              href="https://github.com/enofactory/enopaste"
+              href="https://github.com/AlphaIsYour/youralpha-07-enopaste"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
@@ -111,7 +111,7 @@ export function Header() {
               );
             })}
             <a
-              href="https://github.com/enofactory/enopaste"
+              href="https://github.com/AlphaIsYour/youralpha-07-enopaste"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"

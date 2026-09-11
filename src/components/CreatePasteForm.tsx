@@ -77,6 +77,35 @@ export function CreatePasteForm() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Ctrl+Enter or Cmd+Enter to submit
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+      e.preventDefault();
+      if (!isSubmitting && content.trim()) {
+        handleSubmit(e as unknown as React.FormEvent);
+      }
+      return;
+    }
+
+    // Tab key indentation
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const target = e.currentTarget;
+      const start = target.selectionStart;
+      const end = target.selectionEnd;
+
+      // Insert 2 spaces
+      const newContent =
+        content.substring(0, start) + "  " + content.substring(end);
+      setContent(newContent);
+
+      // Restore cursor position after state update
+      requestAnimationFrame(() => {
+        target.selectionStart = target.selectionEnd = start + 2;
+      });
+    }
+  };
+
   const lineCount = content.split("\n").length;
   const charCount = content.length;
 
@@ -113,6 +142,8 @@ export function CreatePasteForm() {
               <span>{lineCount} lines</span>
               <span>·</span>
               <span>{charCount.toLocaleString()} chars</span>
+              <span>·</span>
+              <span className="text-[11px] opacity-75">Tab indents · Ctrl+↵ submits</span>
             </div>
           </div>
 
@@ -135,6 +166,7 @@ export function CreatePasteForm() {
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Paste your code here..."
           rows={20}
           className="code-editor w-full px-4 pt-14 pb-4 bg-card border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"

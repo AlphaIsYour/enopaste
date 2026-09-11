@@ -1,0 +1,67 @@
+name: "🐛 Bug Report"
+description: "File a report to help us reproduce and fix a bug"
+title: "[BUG]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report an issue! Please provide as much detail as possible to help us investigate.
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: "When viewing a paste with..."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Describe the steps required to reproduce the behavior.
+      placeholder: |
+        1. Go to '/'
+        2. Create a paste with...
+        3. Click on...
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen instead?
+      placeholder: "The paste should display..."
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually occurred?
+      placeholder: "An error message appeared..."
+    validations:
+      required: true
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser & OS
+      description: What browser and operating system were you using?
+      options:
+        - Chrome / Windows
+        - Chrome / macOS
+        - Chrome / Linux
+        - Firefox / Windows
+        - Firefox / macOS
+        - Firefox / Linux
+        - Safari / macOS
+        - Mobile Browser (iOS / Android)
+        - Other (specify below)
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context / Screenshots
+      description: Attach screenshots, console logs, or network payloads if helpful.
