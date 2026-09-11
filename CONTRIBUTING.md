@@ -215,6 +215,9 @@ If the rootless service/context does not exist, complete the [official rootless 
    # Check code formatting & linting
    npm run lint
 
+   # Run utility regression tests (no database required)
+   npm test
+
    # Check TypeScript compilation
    npx tsc --noEmit
 
