@@ -11,6 +11,7 @@ We want to make contributing to this project as easy, transparent, and rewarding
 - [Code of Conduct](#code-of-conduct)
 - [How Can I Contribute?](#how-can-i-contribute)
 - [Local Development Setup](#local-development-setup)
+- [Troubleshooting & FAQs](#troubleshooting--faqs)
 - [Development Workflow](#development-workflow)
 - [Coding Conventions](#coding-conventions)
 - [Submitting a Pull Request](#submitting-a-pull-request)
@@ -122,6 +123,83 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
+## Troubleshooting & FAQs
+
+### PostgreSQL port 5432 is already allocated
+
+Keep an existing database running and give this project's container a different **host** port. In `docker-compose.yml`, change only the `ports` mapping:
+
+```yaml
+ports:
+  - "5433:5432"
+```
+
+Update `.env` to use the same host port:
+
+```env
+DATABASE_URL="postgresql://postgres:password@localhost:5433/enopaste?schema=public"
+```
+
+Then recreate this project's database container and check readiness:
+
+```bash
+docker compose up -d postgres
+docker compose exec postgres pg_isready -U postgres -d enopaste
+npm run db:push
+```
+
+The container still listens on 5432; only connections from the host use 5433. Restart the development server after changing `.env`. Do not run `docker compose down -v` to fix a port conflict: it removes the database volume.
+
+### Prisma Client is out of sync after pulling changes
+
+Regenerate the client after a schema change or when an import reports a missing Prisma model:
+
+```bash
+npm run db:generate
+npx tsc --noEmit
+```
+
+Client generation does not update your database. For your local development database, apply the schema separately after reviewing the changes:
+
+```bash
+npm run db:push
+```
+
+If generation reports missing dependencies, run `npm install` first. If `db:push` cannot connect, check that `.env` exists, `DATABASE_URL` matches your database credentials/host port, and PostgreSQL is ready. Use a local development database, not a production connection, for this setup flow.
+
+### PowerShell says npm.ps1 cannot be loaded
+
+Use the Windows command shim from PowerShell; changing the machine's execution policy is not required:
+
+```powershell
+npm.cmd install
+npm.cmd run db:generate
+npm.cmd run dev
+```
+
+Use `npx.cmd tsc --noEmit` for the TypeScript check. Alternatively, run the documented npm commands in Command Prompt. When working in WSL2, use Node and npm installed inside that WSL distribution rather than mixing Windows and Linux `node_modules`.
+
+### Docker is unavailable or reports permission denied on Linux
+
+Check which daemon/context the CLI is targeting:
+
+```bash
+docker context show
+docker info
+```
+
+Start Docker Desktop if that is your installation. For rootless Docker, start the user service and select its context if those were created during setup:
+
+```bash
+systemctl --user start docker
+docker context use rootless
+docker info
+```
+
+If the rootless service/context does not exist, complete the [official rootless setup](https://docs.docker.com/engine/security/rootless/) first, or use the local PostgreSQL option above. Do not make the Docker socket world-writable to work around permissions.
+
+---
+
 ## Development Workflow
 
 1. **Create a branch:**
@@ -136,6 +214,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
    ```bash
    # Check code formatting & linting
    npm run lint
+
+   # Run utility regression tests (no database required)
+   npm test
 
    # Check TypeScript compilation
    npx tsc --noEmit

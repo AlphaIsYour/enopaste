@@ -114,6 +114,7 @@ export function CreatePasteForm() {
       {/* Title */}
       <div>
         <input
+          aria-label="Paste title"
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -127,6 +128,7 @@ export function CreatePasteForm() {
         <div className="absolute top-0 left-0 right-0 flex items-center justify-between px-4 py-2 bg-card border border-border rounded-t-xl border-b-0 z-10">
           <div className="flex items-center gap-3">
             <select
+              aria-label="Language"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
               className="px-3 py-1.5 bg-secondary border border-border rounded-lg text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 cursor-pointer"
@@ -156,6 +158,7 @@ export function CreatePasteForm() {
                 }}
                 className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
                 title="Copy content"
+                aria-label="Copy paste content"
               >
                 <Copy className="h-4 w-4" />
               </button>
@@ -164,6 +167,7 @@ export function CreatePasteForm() {
         </div>
 
         <textarea
+          aria-label="Paste content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -177,6 +181,8 @@ export function CreatePasteForm() {
       {/* Advanced Options Toggle */}
       <button
         type="button"
+        aria-expanded={showAdvanced}
+        aria-controls="advanced-paste-options"
         onClick={() => setShowAdvanced(!showAdvanced)}
         className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
       >
@@ -192,18 +198,19 @@ export function CreatePasteForm() {
 
       {/* Advanced Options */}
       {showAdvanced && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-xl">
+        <div id="advanced-paste-options" className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-card border border-border rounded-xl">
           {/* Visibility */}
           <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-foreground">
+            <span id="paste-visibility-label" className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Globe className="h-4 w-4 text-muted-foreground" />
               Visibility
-            </label>
-            <div className="grid grid-cols-3 gap-2">
+            </span>
+            <div role="group" aria-labelledby="paste-visibility-label" className="grid grid-cols-3 gap-2">
               {VISIBILITY_OPTIONS.map((option) => (
                 <button
                   key={option.value}
                   type="button"
+                  aria-pressed={visibility === option.value}
                   onClick={() => setVisibility(option.value)}
                   className={cn(
                     "px-3 py-2 rounded-lg text-sm font-medium transition-all border",
@@ -220,11 +227,12 @@ export function CreatePasteForm() {
 
           {/* Expiry */}
           <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-foreground">
+            <label htmlFor="paste-expiry" className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Clock className="h-4 w-4 text-muted-foreground" />
               Expires In
             </label>
             <select
+              id="paste-expiry"
               value={expiresIn === null ? "null" : expiresIn.toString()}
               onChange={(e) =>
                 setExpiresIn(
@@ -246,12 +254,13 @@ export function CreatePasteForm() {
 
           {/* Password */}
           <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-foreground">
+            <label htmlFor="paste-password" className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Lock className="h-4 w-4 text-muted-foreground" />
               Password Protection
             </label>
             <div className="relative">
               <input
+                id="paste-password"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -260,6 +269,7 @@ export function CreatePasteForm() {
               />
               <button
                 type="button"
+                aria-label={showPassword ? "Hide password" : "Show password"}
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors"
               >
@@ -274,12 +284,15 @@ export function CreatePasteForm() {
 
           {/* Burn After Read */}
           <div className="space-y-2">
-            <label className="flex items-center gap-2 text-sm font-medium text-foreground">
+            <span id="paste-burn-label" className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Flame className="h-4 w-4 text-muted-foreground" />
               Burn After Read
-            </label>
+            </span>
             <button
               type="button"
+              role="switch"
+              aria-checked={burnAfterRead}
+              aria-labelledby="paste-burn-label"
               onClick={() => setBurnAfterRead(!burnAfterRead)}
               className={cn(
                 "flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sm transition-all border",
@@ -313,7 +326,7 @@ export function CreatePasteForm() {
 
       {/* Error */}
       {error && (
-        <div className="flex items-center gap-2 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm">
+        <div role="alert" aria-live="polite" className="flex items-center gap-2 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm">
           <Shield className="h-4 w-4 flex-shrink-0" />
           {error}
         </div>
