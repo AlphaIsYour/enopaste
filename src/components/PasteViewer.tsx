@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { highlightCode } from "@/lib/highlighter";
 import { cn, formatDate, formatViews, LANGUAGES } from "@/lib/utils";
 import {
@@ -39,6 +39,8 @@ interface PasteViewerProps {
 export function PasteViewer({ paste }: PasteViewerProps) {
   const [copied, setCopied] = useState(false);
   const [rawCopied, setRawCopied] = useState(false);
+  const [selectedLines, setSelectedLines] = useState<number[]>([]);
+  const [highlightedLines, setHighlightedLines] = useState<string[]>([]);
   const codeRef = useRef<HTMLPreElement>(null);
 
   const languageLabel =
@@ -65,6 +67,14 @@ export function PasteViewer({ paste }: PasteViewerProps) {
     }
   };
 
+  const handleLineClick = (lineNumber: number) => {
+    setSelectedLines((prev) =>
+      prev.includes(lineNumber)
+        ? prev.filter((line) => line !== lineNumber)
+        : [...prev, lineNumber]
+    );
+  };
+
   const handleDownload = () => {
     const blob = new Blob([paste.content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
@@ -79,6 +89,55 @@ export function PasteViewer({ paste }: PasteViewerProps) {
 
   const highlighted = highlightCode(paste.content, paste.language);
   const lineCount = paste.content.split("\n").length;
+
+  useEffect(() => {
+    const sourceLines = paste.content.split("\n");
+    const parser = new DOMParser();
+    const document = parser.parseFromString(
+      `<div>${highlighted}</div>`,
+      "text/html"
+    );
+    const root = document.body.firstElementChild;
+    const lineContainers = sourceLines.map(() => document.createElement("span"));
+    let lineIndex = 0;
+
+    const appendText = (ancestors: Element[], text: string) => {
+      const parent = lineContainers[lineIndex];
+      if (!parent || !text) return;
+
+      let target: Element = parent;
+      ancestors.forEach((ancestor) => {
+        const clone = ancestor.cloneNode(false) as Element;
+        target.appendChild(clone);
+        target = clone;
+      });
+      target.appendChild(document.createTextNode(text));
+    };
+
+    const visitNode = (node: Node, ancestors: Element[]) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const parts = (node.textContent || "").split("\n");
+        parts.forEach((part, index) => {
+          appendText(ancestors, part);
+          if (index < parts.length - 1) lineIndex += 1;
+        });
+        return;
+      }
+
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const element = node as Element;
+        Array.from(node.childNodes).forEach((child) =>
+          visitNode(child, [...ancestors, element])
+        );
+      }
+    };
+
+    if (root) {
+      Array.from(root.childNodes).forEach((node) => visitNode(node, []));
+    }
+
+    setHighlightedLines(lineContainers.map((container) => container.innerHTML));
+  }, [highlighted, paste.content]);
 
   return (
     <div className="space-y-6">
@@ -240,10 +299,35 @@ export function PasteViewer({ paste }: PasteViewerProps) {
             ref={codeRef}
             className="p-4 pt-12 font-mono text-sm leading-relaxed"
           >
-            <code
-              className="line-numbers"
-              dangerouslySetInnerHTML={{ __html: highlighted }}
-            />
+            <code className="block min-w-max">
+              {paste.content.split("\n").map((_, index) => {
+                const lineNumber = index + 1;
+                return (
+                  <span
+                    key={lineNumber}
+                    className={cn(
+                      "flex min-w-max",
+                      selectedLines.includes(lineNumber) && "bg-primary/10"
+                    )}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => handleLineClick(lineNumber)}
+                      className="w-12 shrink-0 pr-4 text-right text-[#4b5263] hover:text-foreground"
+                      aria-label={`Select line ${lineNumber}`}
+                    >
+                      {lineNumber}
+                    </button>
+                    <span
+                      className="whitespace-pre"
+                      dangerouslySetInnerHTML={{
+                        __html: highlightedLines[index] || "",
+                      }}
+                    />
+                  </span>
+                );
+              })}
+            </code>
           </pre>
         </div>
       </div>
