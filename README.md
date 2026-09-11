@@ -2,7 +2,7 @@
 
 A modern, developer-first pastebin and snippet sharing platform. Share code snippets, logs, and config files with syntax highlighting, expiry timers, password protection, and burn-after-read capabilities.
 
-[![CI](https://github.com/AlphaIsYour/youralpha-07-enopaste/actions/workflows/ci.yml/badge.svg)](https://github.com/AlphaIsYour/youralpha-07-enopaste/actions/workflows/ci.yml)
+[![CI](https://github.com/AlphaIsYour/enopaste/actions/workflows/ci.yml/badge.svg)](https://github.com/AlphaIsYour/enopaste/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.2-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![React 19](https://img.shields.io/badge/React-19.2-61dafb?style=flat-square&logo=react)](https://react.dev/)
@@ -57,8 +57,8 @@ A modern, developer-first pastebin and snippet sharing platform. Share code snip
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/AlphaIsYour/youralpha-07-enopaste.git
-cd youralpha-07-enopaste
+git clone https://github.com/AlphaIsYour/enopaste.git
+cd enopaste
 ```
 
 ### 2. Install dependencies
@@ -179,7 +179,7 @@ We maintain a transparent roadmap so contributors know where EnoPaste is heading
 
 We love contributions! Whether you're fixing a typo, improving documentation, or implementing a new feature, you are very welcome here.
 
-Please check out our [Contributing Guide](CONTRIBUTING.md) to get started. We also maintain a list of beginner-friendly tasks under the [`good first issue`](https://github.com/AlphaIsYour/youralpha-07-enopaste/labels/good%20first%20issue) label.
+Please check out our [Contributing Guide](CONTRIBUTING.md) to get started. We also maintain a list of beginner-friendly tasks under the [`good first issue`](https://github.com/AlphaIsYour/enopaste/labels/good%20first%20issue) label.
 
 All participants are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md).
 
@@ -190,8 +190,8 @@ All participants are expected to follow our [Code of Conduct](CODE_OF_CONDUCT.md
 Thank you to everyone helping improve EnoPaste! Every contribution — code, review, bug report, or idea — matters.
 
 <!-- Contributions are automatically credited via GitHub Insights -->
-<a href="https://github.com/AlphaIsYour/youralpha-07-enopaste/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=AlphaIsYour/youralpha-07-enopaste" alt="Contributors" />
+<a href="https://github.com/AlphaIsYour/enopaste/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AlphaIsYour/enopaste" alt="Contributors" />
 </a>
 
 ---

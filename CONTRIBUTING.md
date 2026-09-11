@@ -33,12 +33,12 @@ You don't need to be an expert in the entire codebase to make meaningful contrib
 * 🟢 **Level 1 — Good First Issues (Beginner):**
   * Perfect for your first pull request!
   * Examples: fixing documentation, improving accessibility attributes, adding keyboard shortcuts, tweaking CSS, or handling UI edge cases.
-  * Look for issues labeled [`good first issue`](https://github.com/AlphaIsYour/youralpha-07-enopaste/labels/good%20first%20issue).
+  * Look for issues labeled [`good first issue`](https://github.com/AlphaIsYour/enopaste/labels/good%20first%20issue).
 
 * 🟡 **Level 2 — Core Features & Fixes (Intermediate):**
   * Requires familiarity with Next.js App Router and Prisma.
   * Examples: writing unit tests, improving paste deletion security, line-number click-to-highlight, or enhancing dashboard search.
-  * Look for issues labeled [`help wanted`](https://github.com/AlphaIsYour/youralpha-07-enopaste/labels/help%20wanted).
+  * Look for issues labeled [`help wanted`](https://github.com/AlphaIsYour/enopaste/labels/help%20wanted).
 
 * 🔴 **Level 3 — Architecture & Integrations (Advanced):**
   * Involves deeper architectural changes or external libraries.
@@ -46,7 +46,7 @@ You don't need to be an expert in the entire codebase to make meaningful contrib
 
 ### 2. Reporting Bugs
 
-Before creating a bug report, please check existing [GitHub Issues](https://github.com/AlphaIsYour/youralpha-07-enopaste/issues) to avoid duplicates. When submitting a report, use the **Bug Report** template and include:
+Before creating a bug report, please check existing [GitHub Issues](https://github.com/AlphaIsYour/enopaste/issues) to avoid duplicates. When submitting a report, use the **Bug Report** template and include:
 * Clear, descriptive title
 * Steps to reproduce
 * Expected vs. actual behavior

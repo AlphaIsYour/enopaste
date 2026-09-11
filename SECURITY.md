@@ -18,7 +18,7 @@ The EnoPaste team takes security vulnerabilities seriously. If you discover a se
 Instead, please report it via one of the following methods:
 
 1. **GitHub Security Advisory (Recommended):**
-   Submit a private advisory via [GitHub Security Advisories](https://github.com/AlphaIsYour/youralpha-07-enopaste/security/advisories/new).
+   Submit a private advisory via [GitHub Security Advisories](https://github.com/AlphaIsYour/enopaste/security/advisories/new).
 
 2. **Direct Contact:**
    Reach out directly to the maintainer with details regarding the vulnerability.

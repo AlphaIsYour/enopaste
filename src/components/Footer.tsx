@@ -31,7 +31,7 @@ export function Footer() {
               Dashboard
             </Link>
             <a
-              href="https://github.com/AlphaIsYour/youralpha-07-enopaste"
+              href="https://github.com/AlphaIsYour/enopaste"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
