@@ -137,6 +137,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
    # Check code formatting & linting
    npm run lint
 
+   # Run utility regression tests (no database required)
+   npm test
+
    # Check TypeScript compilation
    npx tsc --noEmit
 
