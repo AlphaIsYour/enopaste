@@ -15,6 +15,7 @@ import {
   Globe,
   LockKeyhole,
   ArrowLeft,
+  WrapText,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -37,6 +38,7 @@ interface PasteViewerProps {
 }
 
 export function PasteViewer({ paste }: PasteViewerProps) {
+  const [isWrapped, setIsWrapped] = useState(false);
   const [copied, setCopied] = useState(false);
   const [rawCopied, setRawCopied] = useState(false);
   const codeRef = useRef<HTMLPreElement>(null);
@@ -223,6 +225,20 @@ export function PasteViewer({ paste }: PasteViewerProps) {
           <span className="text-xs text-muted-foreground font-mono">
             {languageLabel.toLowerCase()}
           </span>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              aria-label="Wrap long lines"
+              aria-pressed={isWrapped}
+              onClick={() => setIsWrapped((wrapped) => !wrapped)}
+              className={cn(
+                "flex items-center gap-1 rounded px-2 py-1 text-xs transition-colors",
+                isWrapped ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              )}
+            >
+              <WrapText className="h-3.5 w-3.5" />
+              Wrap
+            </button>
           <button
             onClick={handleCopy}
             className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors opacity-0 group-hover:opacity-100"
@@ -233,12 +249,16 @@ export function PasteViewer({ paste }: PasteViewerProps) {
               <Copy className="h-4 w-4" />
             )}
           </button>
+          </div>
         </div>
 
         <div className="overflow-x-auto bg-card border border-border rounded-xl">
           <pre
             ref={codeRef}
-            className="p-4 pt-12 font-mono text-sm leading-relaxed"
+            className={cn(
+              "p-4 pt-12 font-mono text-sm leading-relaxed",
+              isWrapped ? "whitespace-pre-wrap [overflow-wrap:anywhere]" : "whitespace-pre"
+            )}
           >
             <code
               className="line-numbers"
