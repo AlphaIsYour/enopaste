@@ -119,3 +119,17 @@ export const VISIBILITY_OPTIONS = [
   { value: "unlisted", label: "Unlisted", description: "Only accessible via link" },
   { value: "private", label: "Private", description: "Password required" },
 ] as const;
+
+/** Counts non-empty whitespace-separated words, including Unicode text. */
+export function getWordCount(text: string): number {
+  return text.match(/\S+/gu)?.length ?? 0;
+}
+
+/** Formats a byte count using 1024-byte units. */
+export function formatFileSize(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+  if (bytes < 1024) return `${Math.round(bytes)} B`;
+  const units = ["KB", "MB", "GB", "TB"];
+  const unit = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)) - 1, units.length - 1);
+  return `${(bytes / 1024 ** (unit + 1)).toFixed(1)} ${units[unit]}`;
+}

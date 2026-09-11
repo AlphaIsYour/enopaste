@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { highlightCode } from "@/lib/highlighter";
-import { cn, formatDate, formatViews, LANGUAGES } from "@/lib/utils";
+import { cn, formatDate, formatViews, getWordCount, formatFileSize, LANGUAGES } from "@/lib/utils";
 import {
   Copy,
   Check,
@@ -79,6 +79,9 @@ export function PasteViewer({ paste }: PasteViewerProps) {
 
   const highlighted = highlightCode(paste.content, paste.language);
   const lineCount = paste.content.split("\n").length;
+  const wordCount = getWordCount(paste.content);
+  const fileSize = formatFileSize(new TextEncoder().encode(paste.content).length);
+  const readingMinutes = Math.ceil(wordCount / 200);
 
   return (
     <div className="space-y-6">
@@ -213,7 +216,8 @@ export function PasteViewer({ paste }: PasteViewerProps) {
         )}
 
         <span className="px-3 py-1.5 rounded-lg bg-secondary text-muted-foreground text-xs font-medium">
-          {lineCount} lines · {paste.content.length.toLocaleString()} chars
+          {lineCount} lines · {wordCount.toLocaleString()} words · {fileSize}
+          {wordCount > 0 && ` · ~${readingMinutes} min read`}
         </span>
       </div>
 
