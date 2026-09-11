@@ -54,6 +54,17 @@ export function isExpired(expiresAt: Date | null): boolean {
   return new Date() > new Date(expiresAt);
 }
 
+export function getWordCount(text: string): number {
+  if (!text) return 0;
+  return text.trim().split(/\s+/).filter((w) => w.length > 0).length;
+}
+
+export function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 export function generateSlug(): string {
   return nanoid(8);
 }
