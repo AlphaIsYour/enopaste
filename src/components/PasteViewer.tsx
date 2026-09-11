@@ -88,6 +88,7 @@ export function PasteViewer({ paste }: PasteViewerProps) {
           <div className="flex items-center gap-3">
             <Link
               href="/"
+              aria-label="Create a new paste"
               className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -122,6 +123,7 @@ export function PasteViewer({ paste }: PasteViewerProps) {
 
         <div className="flex items-center gap-2">
           <button
+            aria-label={copied ? "Copied paste content" : "Copy paste content"}
             onClick={handleCopy}
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
@@ -144,6 +146,7 @@ export function PasteViewer({ paste }: PasteViewerProps) {
           </button>
 
           <button
+            aria-label="Download paste"
             onClick={handleDownload}
             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium bg-secondary text-foreground hover:bg-secondary/80 border border-border transition-all"
           >
@@ -152,6 +155,7 @@ export function PasteViewer({ paste }: PasteViewerProps) {
           </button>
 
           <button
+            aria-label={rawCopied ? "Copied raw link" : "Copy raw link"}
             onClick={handleCopyRawLink}
             className={cn(
               "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all",
@@ -224,8 +228,9 @@ export function PasteViewer({ paste }: PasteViewerProps) {
             {languageLabel.toLowerCase()}
           </span>
           <button
+            aria-label={copied ? "Copied paste content" : "Copy paste content"}
             onClick={handleCopy}
-            className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors opacity-0 group-hover:opacity-100"
+            className="p-1 rounded text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors opacity-0 group-hover:opacity-100 focus-visible:opacity-100"
           >
             {copied ? (
               <Check className="h-4 w-4 text-green-500" />

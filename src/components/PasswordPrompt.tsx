@@ -41,8 +41,12 @@ export function PasswordPrompt({ onSubmit, error }: PasswordPromptProps) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          <label htmlFor="unlock-password" className="block text-sm font-medium text-foreground">Password</label>
           <div className="relative">
             <input
+              id="unlock-password"
+              aria-invalid={Boolean(error)}
+              aria-describedby={error ? "unlock-password-error" : undefined}
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -52,6 +56,7 @@ export function PasswordPrompt({ onSubmit, error }: PasswordPromptProps) {
             />
             <button
               type="button"
+              aria-label={showPassword ? "Hide password" : "Show password"}
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-foreground transition-colors"
             >
@@ -64,7 +69,7 @@ export function PasswordPrompt({ onSubmit, error }: PasswordPromptProps) {
           </div>
 
           {error && (
-            <div className="flex items-center gap-2 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm">
+            <div id="unlock-password-error" role="alert" aria-live="polite" className="flex items-center gap-2 px-4 py-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm">
               <Shield className="h-4 w-4 flex-shrink-0" />
               {error}
             </div>
