@@ -63,6 +63,36 @@ $issues = @(
         Title = "[FEAT] CLI and cURL support for creating pastes directly from the terminal"
         File = "12_terminal_curl_support.md"
         Labels = "enhancement,developer-experience,help wanted"
+    },
+    @{
+        Title = "[PERF/SECURITY] Implement sliding window rate limiting on paste creation and authentication endpoints"
+        File = "13_api_rate_limiting.md"
+        Labels = "security,performance,backend,help wanted"
+    },
+    @{
+        Title = "[PERF] Implement cursor-based pagination and infinite scroll on public dashboard"
+        File = "14_cursor_pagination_dashboard.md"
+        Labels = "performance,enhancement,backend,ui/ux"
+    },
+    @{
+        Title = "[PERF] Add ETag and Cache-Control headers to raw paste endpoint"
+        File = "15_http_caching_etag_raw.md"
+        Labels = "performance,backend,good first issue,help wanted"
+    },
+    @{
+        Title = "[PERF/UX] Add DOM virtualization for large pastes in PasteViewer"
+        File = "16_virtualized_code_rendering.md"
+        Labels = "performance,ui/ux,enhancement,help wanted"
+    },
+    @{
+        Title = "[DEVOPS/PERF] Add database health check and system metrics endpoint (/api/health)"
+        File = "17_healthcheck_metrics_endpoint.md"
+        Labels = "developer-experience,backend,performance,good first issue"
+    },
+    @{
+        Title = "[PERF/SECURITY] Add client-side zero-knowledge AES-GCM encryption for private pastes"
+        File = "18_client_side_aes_encryption.md"
+        Labels = "security,performance,enhancement,help wanted"
     }
 )
 
